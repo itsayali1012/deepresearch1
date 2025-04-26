@@ -1,4 +1,4 @@
-# deep_research_agents/main.py (Fully Free Version using Tavily + HuggingFace + LangGraph)
+# deep_research_agents/main.py ( using Tavily + HuggingFace + LangGraph)
 
 import os
 import requests
@@ -26,7 +26,7 @@ final_summary = "\n".join(summaries)
 load_dotenv()
 TAVILY_API_KEY = os.getenv("TAVILY_API_KEY")
 
-# ------------------ Agent 1: Research Agent using Tavily API ------------------ #
+# Agent 1: Research Agent using Tavily API #
 def research_agent(state):
     query = state["query"]
     print(f"[Research Agent] Searching Tavily for: {query}")
@@ -68,7 +68,7 @@ def research_agent(state):
         return {"query": query, "research_data": "No data found."}
 
 
-# ------------------ Agent 2: Drafting Agent using HuggingFace ------------------ #
+#  Agent 2: Drafting Agent using HuggingFace  #
 def draft_agent(state):
     research_data = state["research_data"]
     print("[Drafting Agent] Summarizing research data...")
@@ -76,7 +76,7 @@ def draft_agent(state):
     summary = summarizer(research_data, max_length=200, min_length=50, do_sample=False)
     return {"final_answer": summary[0]['summary_text']}
 
-# ------------------ LangGraph Setup ------------------ #
+# LangGraph Setup #
 from langgraph.graph import StateGraph
 
 # Use dict to define a flexible schema
@@ -91,7 +91,7 @@ workflow.set_finish_point("draft")
 
 compiled_graph = workflow.compile()
 
-# ------------------ Run ------------------ #
+# Run  #
 if __name__ == "__main__":
     user_query = input("Enter your research topic: ")
     result = compiled_graph.invoke({"query": user_query})
